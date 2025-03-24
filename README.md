@@ -1,0 +1,57 @@
+<a href="https://central.sonatype.com/artifact/org.encalmo/files-tree_3" target="_blank">![Maven Central Version](https://img.shields.io/maven-central/v/org.encalmo/files-tree_3?style=for-the-badge)</a> <a href="https://encalmo.github.io/files-tree/scaladoc/org/encalmo/utils.html" target="_blank"><img alt="Scaladoc" src="https://img.shields.io/badge/docs-scaladoc-red?style=for-the-badge"></a>
+
+# files-tree
+
+A small Scala 3 utility to draw a files tree, like:
+
+```
+├── bar
+│   └── foo
+│       └── foo.bar
+│
+├── foo
+│   └── zoo
+│       └── bar.txt
+│
+├── zoo
+│   └── foo
+│       └── bar
+│           └── zoo.scala
+│
+└── zoo.scala
+```
+
+## Dependencies
+
+- Scala >= 3.3.5
+
+## Usage
+
+Use with SBT
+
+    libraryDependencies += "org.encalmo.utils" %% "files-tree" % "0.9.0"
+
+or with SCALA-CLI
+
+    //> using dep org.encalmo.utils::files-tree:0.9.0
+
+## Examples
+
+```scala
+val pathTree = FileTree.compute(
+    Seq(
+    Paths.get("/test"),
+    Paths.get("/test", "foo", "bar.txt"),
+    Paths.get("foo.bar"),
+    Paths.get("/test", "test.scala")
+    )
+)
+
+FileTree.draw(pathTree) shouldBe
+    """├── foo.bar
+      |└── test
+      |    ├── foo
+      |    │   └── bar.txt
+      |    │
+      |    └── test.scala""".stripMargin
+```
