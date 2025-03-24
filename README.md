@@ -1,4 +1,4 @@
-<a href="https://central.sonatype.com/artifact/org.encalmo/files-tree_3" target="_blank">![Maven Central Version](https://img.shields.io/maven-central/v/org.encalmo/files-tree_3?style=for-the-badge)</a> <a href="https://encalmo.github.io/files-tree/scaladoc/org/encalmo/utils.html" target="_blank"><img alt="Scaladoc" src="https://img.shields.io/badge/docs-scaladoc-red?style=for-the-badge"></a>
+<a href="https://github.com/encalmo/files-tree">![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)</a> <a href="https://central.sonatype.com/artifact/org.encalmo.utils/files-tree_3" target="_blank">![Maven Central Version](https://img.shields.io/maven-central/v/org.encalmo.utils/files-tree_3?style=for-the-badge)</a> <a href="https://encalmo.github.io/files-tree/scaladoc/org/encalmo/utils.html" target="_blank"><img alt="Scaladoc" src="https://img.shields.io/badge/docs-scaladoc-red?style=for-the-badge"></a>
 
 # files-tree
 
@@ -23,7 +23,7 @@ A small Scala 3 utility to draw a files tree, like:
 
 ## Dependencies
 
-- Scala >= 3.3.5
+   - [Scala](https://www.scala-lang.org) >= 3.3.5
 
 ## Usage
 
