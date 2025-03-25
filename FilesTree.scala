@@ -3,23 +3,55 @@ package org.encalmo.utils
 import java.nio.file.{Path, Paths}
 
 import scala.annotation.tailrec
+import scala.jdk.StreamConverters.*
 
-trait FileTree {
+object FilesTree {
 
   type Node = (Int, String)
   type Tree = List[Node]
 
-  val middleNode = "├── "
-  val endNode = "└── "
-  val link = "│   "
-  val space = " " * link.length
+  private val middleNode = "├── "
+  private val endNode = "└── "
+  private val link = "│   "
+  private val space = " " * link.length
 
   private val root = Paths.get("/")
 
-  def sort(paths: Seq[Path]): Seq[Path] =
+  /** Draw a tree of files and folders starting at root
+    *
+    * @param root
+    *   folder where to start
+    * @param maxDepth
+    *   max tree depth
+    * @param visitOptions
+    *   java file visti options
+    * @param isAllowed
+    *   whether to include given path and its subpaths
+    * @param includeRoot
+    *   whether to render root folder at the top
+    * @return
+    */
+  final def tree(
+      root: java.nio.file.Path,
+      maxDepth: Int = Int.MaxValue,
+      visitOptions: Seq[java.nio.file.FileVisitOption] = Seq.empty,
+      isAllowed: Path => Boolean = _ => true,
+      includeRoot: Boolean = true
+  ): String =
+    draw(
+      compute(
+        java.nio.file.Files
+          .walk(root, maxDepth, visitOptions: _*)
+          .filter(p => (includeRoot || p != root) && isAllowed(p))
+          .toScala(Seq)
+      )
+    )
+
+  private inline def sort(paths: Seq[Path]): Seq[Path] =
     paths.sortWith((pl, pr) => comparePaths(pl, pr, 0))
 
-  def compute(paths: Seq[Path]): Tree = {
+  /** Compute tree from file paths */
+  final def compute(paths: Seq[Path]): Tree = {
 
     def leafs(prefix: Path, p2: Path): Tree =
       (0 until p2.getNameCount).toList
@@ -40,7 +72,8 @@ trait FileTree {
       ._1
   }
 
-  def draw(pathsTree: Tree): String = {
+  /** Draw a tree */
+  final def draw(pathsTree: Tree): String = {
 
     def drawLine(node: String, label: String, marks: List[Int]): (String, List[Int]) =
       ((0 until marks.max).map(i => if (marks.contains(i)) link else space).mkString + node + label, marks)
@@ -80,7 +113,7 @@ trait FileTree {
   }
 
   @tailrec
-  final def comparePaths(path1: Path, path2: Path, i: Int): Boolean = {
+  private def comparePaths(path1: Path, path2: Path, i: Int): Boolean = {
     val c = path1.getName(i).toString.compareToIgnoreCase(path2.getName(i).toString)
     val pc1 = path1.getNameCount
     val pc2 = path2.getNameCount
@@ -92,7 +125,7 @@ trait FileTree {
   }
 
   @tailrec
-  final def commonPrefix(prefix: Path, path1: Path, path2: Path): (Path, Path, Path) =
+  private def commonPrefix(prefix: Path, path1: Path, path2: Path): (Path, Path, Path) =
     if (path1.getNameCount > 0 && path2.getNameCount > 0) {
       if (path1.getName(0) != path2.getName(0)) (prefix, path1, path2)
       else
@@ -103,7 +136,5 @@ trait FileTree {
         )
     } else (prefix, path1, path2)
 
-  def trimRight(string: String): String = string.reverse.dropWhile(_ == ' ').reverse
+  private inline def trimRight(string: String): String = string.reverse.dropWhile(_ == ' ').reverse
 }
-
-object FileTree extends FileTree

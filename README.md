@@ -38,7 +38,7 @@ or with SCALA-CLI
 ## Examples
 
 ```scala
-val pathTree = FileTree.compute(
+val pathTree = FilesTree.compute(
     Seq(
     Paths.get("/test"),
     Paths.get("/test", "foo", "bar.txt"),
@@ -47,7 +47,7 @@ val pathTree = FileTree.compute(
     )
 )
 
-FileTree.draw(pathTree) shouldBe
+FilesTree.draw(pathTree) shouldBe
     """├── foo.bar
       |└── test
       |    ├── foo

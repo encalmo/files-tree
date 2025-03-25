@@ -12,29 +12,38 @@ class FilesTreeSpec extends munit.FunSuite {
     inline def containsOnly(ts1: Seq[T]) =
       assert(ts0.sameElements(ts1))
 
+  test("tree of current folder") {
+    println(
+      FilesTree.tree(
+        root = new java.io.File(".").toPath(),
+        isAllowed = GitIgnore.fromCurrentDirectory().isAllowed
+      )
+    )
+  }
+
   test("compute a tree") {
-    FileTree.compute(Seq(Paths.get("test.scala"))) shouldBe List(0 -> "test.scala")
-    FileTree.compute(Seq(Paths.get("/test", "test.scala"))) shouldBe List(0 -> "test", 1 -> "test.scala")
-    FileTree.compute(Seq(Paths.get("/test"), Paths.get("/test", "test.scala"))) containsOnly (List(
+    FilesTree.compute(Seq(Paths.get("test.scala"))) shouldBe List(0 -> "test.scala")
+    FilesTree.compute(Seq(Paths.get("/test", "test.scala"))) shouldBe List(0 -> "test", 1 -> "test.scala")
+    FilesTree.compute(Seq(Paths.get("/test"), Paths.get("/test", "test.scala"))) containsOnly (List(
       0 -> "test",
       1 -> "test.scala"
     ))
-    FileTree.compute(Seq(Paths.get("/test", "test.scala"), Paths.get("/test"))) containsOnly (List(
+    FilesTree.compute(Seq(Paths.get("/test", "test.scala"), Paths.get("/test"))) containsOnly (List(
       0 -> "test",
       1 -> "test.scala"
     ))
-    FileTree.compute(Seq(Paths.get("/test", "test.scala"), Paths.get("/test"))) containsOnly (List(
+    FilesTree.compute(Seq(Paths.get("/test", "test.scala"), Paths.get("/test"))) containsOnly (List(
       0 -> "test",
       1 -> "test.scala"
     ))
-    FileTree.compute(Seq(Paths.get("/test"), Paths.get("/test", "test.scala"))) containsOnly (List(
+    FilesTree.compute(Seq(Paths.get("/test"), Paths.get("/test", "test.scala"))) containsOnly (List(
       0 -> "test",
       1 -> "test.scala"
     ))
-    FileTree.compute(
+    FilesTree.compute(
       Seq(Paths.get("/test"), Paths.get("/test", "foo", "bar.txt"), Paths.get("/test", "test.scala"))
     ) containsOnly (List(0 -> "test", 1 -> "foo", 2 -> "bar.txt", 1 -> "test.scala"))
-    FileTree.compute(
+    FilesTree.compute(
       Seq(
         Paths.get("/test"),
         Paths.get("/test", "foo", "bar.txt"),
@@ -48,7 +57,7 @@ class FilesTreeSpec extends munit.FunSuite {
       2 -> "bar.txt",
       1 -> "test.scala"
     ))
-    FileTree.compute(
+    FilesTree.compute(
       Seq(
         Paths.get("/test"),
         Paths.get("/test", "foo", "bar.txt"),
@@ -61,7 +70,7 @@ class FilesTreeSpec extends munit.FunSuite {
   }
 
   test("draw a tree 1") {
-    val pathTree = FileTree.compute(
+    val pathTree = FilesTree.compute(
       Seq(
         Paths.get("/test"),
         Paths.get("/test", "foo", "bar.txt"),
@@ -69,7 +78,7 @@ class FilesTreeSpec extends munit.FunSuite {
         Paths.get("/test", "test.scala")
       )
     )
-    FileTree.draw(pathTree) shouldBe
+    FilesTree.draw(pathTree) shouldBe
       """├── foo.bar
           |└── test
           |    ├── foo
@@ -79,7 +88,7 @@ class FilesTreeSpec extends munit.FunSuite {
   }
 
   test("draw a tree 2") {
-    val pathTree = FileTree.compute(
+    val pathTree = FilesTree.compute(
       Seq(
         Paths.get("/test"),
         Paths.get("/test", "foo", "bar.txt"),
@@ -87,7 +96,7 @@ class FilesTreeSpec extends munit.FunSuite {
         Paths.get("/test", "test.scala")
       )
     )
-    FileTree.draw(pathTree) shouldBe
+    FilesTree.draw(pathTree) shouldBe
       """├── bar
           |│   └── foo.bar
           |│
@@ -99,13 +108,13 @@ class FilesTreeSpec extends munit.FunSuite {
   }
 
   test("draw a tree 3") {
-    val pathTree = FileTree.compute(Seq(Paths.get("/test")))
-    FileTree.draw(pathTree) shouldBe
+    val pathTree = FilesTree.compute(Seq(Paths.get("/test")))
+    FilesTree.draw(pathTree) shouldBe
       """└── test""".stripMargin
   }
 
   test("draw a tree 4") {
-    val pathTree = FileTree.compute(
+    val pathTree = FilesTree.compute(
       Seq(
         Paths.get("zoo.scala"),
         Paths.get("/foo", "zoo", "bar.txt"),
@@ -113,7 +122,7 @@ class FilesTreeSpec extends munit.FunSuite {
         Paths.get("/zoo", "foo", "bar", "zoo.scala")
       )
     )
-    val tree = FileTree.draw(pathTree)
+    val tree = FilesTree.draw(pathTree)
     println(tree)
     tree shouldBe
       """├── bar
