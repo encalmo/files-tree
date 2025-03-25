@@ -21,6 +21,12 @@ A small Scala 3 utility to draw a files tree, like:
 └── zoo.scala
 ```
 
+## Table of contents
+
+- [Dependencies](#dependencies)
+- [Usage](#usage)
+- [Examples](#examples)
+
 ## Dependencies
 
    - [Scala](https://www.scala-lang.org) >= 3.3.5
@@ -54,4 +60,23 @@ FilesTree.draw(pathTree) shouldBe
       |    │   └── bar.txt
       |    │
       |    └── test.scala""".stripMargin
+```
+
+## Project content
+
+```
+├── .github
+│   └── workflows
+│       ├── pages.yaml
+│       ├── release.yaml
+│       └── test.yaml
+│
+├── .gitignore
+├── .scalafmt.conf
+├── FilesTree.scala
+├── FilesTree.test.scala
+├── LICENSE
+├── project.scala
+├── README.md
+└── test.sh
 ```
