@@ -29,11 +29,11 @@ A small Scala 3 utility to draw a files tree, like:
 
 Use with SBT
 
-    libraryDependencies += "org.encalmo.utils" %% "files-tree" % "0.9.1"
+    libraryDependencies += "org.encalmo" %% "files-tree" % "0.9.1"
 
 or with SCALA-CLI
 
-    //> using dep org.encalmo.utils::files-tree:0.9.1
+    //> using dep org.encalmo::files-tree:0.9.1
 
 ## Examples
 
