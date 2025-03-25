@@ -38,14 +38,15 @@ object FilesTree {
       isAllowed: Path => Boolean = _ => true,
       includeRoot: Boolean = true
   ): String =
-    draw(
-      compute(
-        java.nio.file.Files
-          .walk(root, maxDepth, visitOptions: _*)
-          .filter(p => (includeRoot || p != root) && isAllowed(p))
-          .toScala(Seq)
+    val paths = java.nio.file.Files
+      .walk(root, maxDepth, visitOptions: _*)
+      .filter(p => (includeRoot || p != root) && isAllowed(p))
+      .toScala(Seq)
+      .map(path =>
+        if (includeRoot) path
+        else root.relativize(path)
       )
-    )
+    draw(compute(paths))
 
   private inline def sort(paths: Seq[Path]): Seq[Path] =
     paths.sortWith((pl, pr) => comparePaths(pl, pr, 0))

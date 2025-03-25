@@ -16,7 +16,8 @@ class FilesTreeSpec extends munit.FunSuite {
     println(
       FilesTree.tree(
         root = new java.io.File(".").toPath(),
-        isAllowed = GitIgnore.fromCurrentDirectory().isAllowed
+        isAllowed = GitIgnore.fromCurrentDirectory().excludeGitFolder().isAllowed,
+        includeRoot = false
       )
     )
   }
