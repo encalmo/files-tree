@@ -31,6 +31,7 @@ When building CLI tools, documentation generators, or tests you often need to sh
 - [Dependencies](#dependencies)
 - [Usage](#usage)
 - [Examples](#examples)
+- [Project content](#project-content)
 
 ## Dependencies
 
@@ -85,3 +86,4 @@ FilesTree.draw(pathTree) shouldBe
 ├── README.md
 └── test.sh
 ```
+
