@@ -21,8 +21,13 @@ A small Scala 3 utility to draw a files tree, like:
 └── zoo.scala
 ```
 
+## Motivation
+
+When building CLI tools, documentation generators, or tests you often need to show a directory layout or a set of paths as a readable tree. Calling external commands like `tree` is not always possible or desirable: it may be unavailable on the platform, produce different output, or you might only have a list of paths (e.g. from an API or a test) rather than a real filesystem. **files-tree** gives you a small, dependency-free Scala 3 API to build and render such trees from any sequence of paths, or by walking a directory—so your app can show consistent, cross-platform file trees without relying on the environment.
+
 ## Table of contents
 
+- [Motivation](#motivation)
 - [Dependencies](#dependencies)
 - [Usage](#usage)
 - [Examples](#examples)

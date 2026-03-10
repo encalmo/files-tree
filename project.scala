@@ -1,5 +1,4 @@
 //> using scala 3.3.5
-//> using jsVersion 1.17.0
 //> using exclude scripts
 //> using test.dep org.scalameta::munit:1.1.0
 //> using test.dep org.encalmo::gitignore:0.9.3
